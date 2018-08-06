@@ -7,7 +7,7 @@ import com.pingcap.homework.EvaluatorBuilder;
 public class DummyEvaluatorBuilder implements EvaluatorBuilder {
 
   @Override
-  public Evaluator build(ASTNode root) {
+  public Evaluator build(ASTNode root, Object schema) {
     return new DummyEvaluator(root);
   }
 }

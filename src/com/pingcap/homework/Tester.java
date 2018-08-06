@@ -11,13 +11,18 @@ public class Tester {
     ASTNode lhs = new BinaryOpNode(new ColumnRef(0), new Constant(99.88), Operation.Minus);
     ASTNode rhs = new BinaryOpNode(new ColumnRef(1), new ColumnRef(2), Operation.Plus);
     ASTNode expr = new BinaryOpNode(lhs, rhs, Operation.Plus);
-    EvaluatorBuilder builder = new DummyEvaluatorBuilder();
-    Evaluator evaluator = builder.build(expr);
 
+    RowData res = baseline(expr, data);
+    verify(res);
+  }
+
+  private static RowData baseline(ASTNode root, RowData data) {
+    EvaluatorBuilder builder = new DummyEvaluatorBuilder();
+    Evaluator evaluator = builder.build(root, null);
     long nanoStart = System.nanoTime();
     RowData res = (RowData) evaluator.evaluate(data);
     System.out.println((System.nanoTime() - nanoStart) / 1000000000.0);
-    verify(res);
+    return res;
   }
 
   private static void verify(RowData r) throws Exception {
@@ -37,4 +42,5 @@ public class Tester {
     }
     return new DummyRowData(data);
   }
+
 }

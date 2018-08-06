@@ -28,6 +28,18 @@ public class BinaryOpNode extends ASTNode {
     throw new UnsupportedOperationException("operation not supported");
   }
 
+  public ASTNode getLeft() {
+    return left;
+  }
+
+  public ASTNode getRight() {
+    return right;
+  }
+
+  public Operation getOp() {
+    return op;
+  }
+
   public enum Operation {
     Plus, Minus
   }
