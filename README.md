@@ -8,3 +8,4 @@ No NULL value in input data.
 Evaluation process has a dummy implementation in com.pingcap.homework.dummy package. 
 
 Your work is to optimize those classes, you might change RowData implementation for better speed; you might optimize evaluator for more effective calculation; you might change whatever you see fit.
+But, you cannot assume expression to calculate, the schema of rows are static and hardcoded.
