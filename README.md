@@ -1,5 +1,5 @@
 This is a homework.
-It's a expression evaluator. Users provide expression with row data to evaluate.
+It's an expression evaluator. Users provide expression with row data to evaluate.
 The expression includes 
 
 1. Column reference to a column in a row. Pos is the position of column referenced in row (starting from zero)
