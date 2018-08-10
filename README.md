@@ -11,5 +11,5 @@ No NULL value in input data and you don't need to care about it.
 
 Evaluation process has a dummy implementation in com.pingcap.homework.dummy package. 
 
-Your work is to optimize (reimplement) those dummy classes, you might change RowData implementation for better speed; you might optimize evaluator for more effective calculation; you might change whatever you see fit.
+Your work is to optimize (reimplement) those dummy classes: make it as fast as you can. You might change RowData implementation for better speed; you might optimize evaluator for more effective calculation; you might change whatever you see fit.
 But, you cannot assume expression to calculate and the schema of rows are static (schemas are the same for all rows in a single test but might change between tests) and hardcoded.
