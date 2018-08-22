@@ -15,3 +15,5 @@ Your work has two parts:
 1. Analyze why why this piece of code is slow and inefficient. Provide an report with evidence (for example, CPU efficiency, cache locality, branch miss or GC pause and etc) and reasoning.
 2. According to your analysis, optimize (reimplement) those dummy classes: make it as fast as you can. You might change RowData implementation for better speed; you might optimize evaluator for more effective calculation; you might change whatever you see fit.
 But, you cannot assume expression to calculate and the schema of rows are static (schemas are the same for all rows in a single test but might change between tests) and hardcoded.
+
+Please don't fork and submit your solution. Send us your code by mail please :)
