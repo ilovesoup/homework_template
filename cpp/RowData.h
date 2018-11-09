@@ -6,14 +6,14 @@
 struct Datum {
     enum Type { Int, Double } type;
     union {
-        int i;
+        int64_t i;
         double d;
     };
 
-    Datum(int value) : type(Int), i(value) { }
+    Datum(int64_t value) : type(Int), i(value) { }
     Datum(double value) : type(Double), d(value) { }
 
-    int getInt() {
+    int64_t getInt() {
         if (type == Double) {
             return static_cast<int>(d);
         } else {
@@ -35,11 +35,11 @@ struct Datum {
 };
 
 struct RowData {
-    virtual Datum    get(int rowID, int pos) = 0;
-    virtual int      getInt(int rowID, int pos) = 0;
-    virtual double   getDouble(int rowID, int pos) = 0;
+    virtual Datum    get(int rowID, size_t pos) = 0;
+    virtual int64_t  getInt(int rowID, size_t pos) = 0;
+    virtual double   getDouble(int rowID, size_t pos) = 0;
     virtual void *   getSchema() = 0;
-    virtual int      getSize() = 0;
+    virtual size_t   getSize() = 0;
 };
 
 typedef std::shared_ptr<RowData> RowDataPtr;

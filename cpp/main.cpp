@@ -13,7 +13,6 @@ using std::endl;
 using std::chrono::high_resolution_clock;
 using std::chrono::duration_cast;
 using std::chrono::nanoseconds;
-using std::make_shared;
 using std::unique_ptr;
 
 const int NUM = 10000000;
@@ -28,10 +27,10 @@ void verify(RowDataPtr r) {
     }
 }
 
-RowDataPtr loadData() {
+RowDataPtr loadData(int num) {
     DummyRowData * const pDummyRaw = new DummyRowData(NUM);
     RowDataPtr pData(pDummyRaw);
-    for (int i = 0; i < NUM; i++) {
+    for (int64_t i = 0; i < num; i++) {
         Row row{Datum(i), Datum(i + 1), Datum(i + 1.1)};
         pDummyRaw->addRow(row);
     }
@@ -39,8 +38,7 @@ RowDataPtr loadData() {
 }
 
 
-void baseline(AstNodePtr root) {
-    RowDataPtr pData = loadData();
+void baseline(AstNodePtr root, RowDataPtr pData) {
     DummyEvaluatorBuilder builder;
     unique_ptr<Evaluator<RowDataPtr>> evaluator(builder.build(root, NULL));
     cout << "baseline started..." << endl;
@@ -52,7 +50,7 @@ void baseline(AstNodePtr root) {
     verify(pRes);
 }
 
-void userCode(AstNodePtr root) {}
+void userCode(AstNodePtr root, RowDataPtr pData) {}
 
 
 int main() {
@@ -60,12 +58,13 @@ int main() {
     // lhs = col(0) - 99.98 = i - 99.98
     // rhs = col(1) + col(2) = i + 1 + i + 1.1 = 2i + 2.1
     // expr = 3i + 97.88
-    AstNodePtr lhs(new BinaryOpNode(AstNodePtr(new ColumnRef(0)), AstNodePtr(new Constant(99.88)), BinaryOpNode::Minus));
-    AstNodePtr rhs(new BinaryOpNode(AstNodePtr(new ColumnRef(1)), AstNodePtr(new ColumnRef(2)), BinaryOpNode::Plus));
-    AstNodePtr expr(new BinaryOpNode(lhs, rhs, BinaryOpNode::Plus));
+    AstNodePtr lhs(new Minus(AstNodePtr(new ColumnRef(0)), AstNodePtr(new Constant(99.88))));
+    AstNodePtr rhs(new Plus(AstNodePtr(new ColumnRef(1)), AstNodePtr(new ColumnRef(2))));
+    AstNodePtr expr(new Plus(lhs, rhs));
 
-    userCode(expr);
-    baseline(expr);
+    RowDataPtr pData = loadData(NUM);
+    userCode(expr, pData);
+    baseline(expr, pData);
 
     return 0;
 }

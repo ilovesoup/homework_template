@@ -15,15 +15,15 @@ public:
     DummyRowData(int rowCount) {}
     ~DummyRowData() {}
 
-    Datum get(int rowID, int pos)  {
+    Datum get(int rowID, size_t pos)  {
         return rows[rowID][pos];
     }
 
-    int getInt(int rowID, int pos) {
+    int64_t getInt(int rowID, size_t pos) {
         return rows[rowID][pos].getInt();
     }
 
-    double getDouble(int rowID, int pos) {
+    double getDouble(int rowID, size_t pos) {
         return rows[rowID][pos].getDouble();
     }
 
@@ -31,7 +31,7 @@ public:
         throw std::runtime_error("unsupported operation getSchema");
     }
 
-    int getSize() {
+    size_t getSize() {
         return rows.size();
     }
 
@@ -49,8 +49,8 @@ public:
 
     RowDataPtr evaluate(RowDataPtr data) {
         DummyRowData * pRows = new DummyRowData(data->getSize());
-        int size = data->getSize();
-        for (int i = 0; i < size; i++) {
+        size_t size = data->getSize();
+        for (size_t i = 0; i < size; i++) {
             Datum val = root->evaluate(data, i);
             Row row;
             row.push_back(val);
