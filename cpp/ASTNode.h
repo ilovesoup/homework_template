@@ -68,7 +68,7 @@ public:
         Datum lVal = left->evaluate(r, rowID);
         Datum rVal = right->evaluate(r, rowID);
         if (lVal.getType() == Datum::Double || rVal.getType() == Datum::Double) {
-            return lVal.getDouble() + rVal.getDouble();
+            return lVal.getDouble() - rVal.getDouble();
         } else {
             return lVal.getInt() - rVal.getInt();
         }
