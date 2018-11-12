@@ -17,8 +17,8 @@ using std::unique_ptr;
 
 const int NUM = 10000000;
 
-void verify(RowDataPtr r) {
-    for (int i = 0; i < NUM; i++) {
+void verify(RowDataPtr r, int num) {
+    for (int i = 0; i < num; i++) {
         double e = (i - 99.88) + (i + 1 + i + 1.1);
         double a = r->getDouble(i, 0);
         if (abs(e - a) > 0.0001) {
@@ -38,7 +38,7 @@ RowDataPtr loadData(int num) {
 }
 
 
-void baseline(AstNodePtr root, RowDataPtr pData) {
+void baseline(AstNodePtr root, RowDataPtr pData, int num) {
     DummyEvaluatorBuilder builder;
     unique_ptr<Evaluator<RowDataPtr>> evaluator(builder.build(root, NULL));
     cout << "baseline started..." << endl;
@@ -47,10 +47,10 @@ void baseline(AstNodePtr root, RowDataPtr pData) {
     auto end = high_resolution_clock::now();
     cout << duration_cast<nanoseconds>(end - start).count() / 1000000000.0 << "s" << endl;
 
-    verify(pRes);
+    verify(pRes, num);
 }
 
-void userCode(AstNodePtr root, RowDataPtr pData) {}
+void userCode(AstNodePtr root, RowDataPtr pData, int num) {}
 
 
 int main() {
@@ -63,8 +63,8 @@ int main() {
     AstNodePtr expr(new Plus(lhs, rhs));
 
     RowDataPtr pData = loadData(NUM);
-    userCode(expr, pData);
-    baseline(expr, pData);
+    userCode(expr, pData, NUM);
+    baseline(expr, pData, NUM);
 
     return 0;
 }
