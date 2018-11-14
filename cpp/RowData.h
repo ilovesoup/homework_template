@@ -40,6 +40,7 @@ struct RowData {
     virtual double   getDouble(int rowID, size_t pos) = 0;
     virtual void *   getSchema() = 0;
     virtual size_t   getSize() = 0;
+    virtual ~RowData() {}
 };
 
 typedef std::shared_ptr<RowData> RowDataPtr;

@@ -13,7 +13,6 @@ typedef vector<Datum> Row;
 class DummyRowData : public RowData {
 public:
     DummyRowData(int rowCount) {}
-    ~DummyRowData() {}
 
     Datum get(int rowID, size_t pos)  {
         return rows[rowID][pos];
@@ -45,7 +44,6 @@ private:
 class DummyEvalutor : public Evaluator<RowDataPtr> {
 public:
     DummyEvalutor(AstNodePtr _root) : root(_root) {}
-    ~DummyEvalutor() {}
 
     RowDataPtr evaluate(RowDataPtr data) {
         DummyRowData * pRows = new DummyRowData(data->getSize());

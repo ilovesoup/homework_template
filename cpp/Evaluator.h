@@ -9,12 +9,14 @@ template <typename T>
 class Evaluator {
 public:
     virtual T evaluate(RowDataPtr data) = 0;
+    virtual ~Evaluator() {}
 };
 
 template <typename T>
 class EvaluatorBuilder {
 public:
     virtual Evaluator<T> * build(AstNodePtr root, void * schema) = 0;
+    virtual ~EvaluatorBuilder() {}
 };
 
 #endif //HOMEWORK_CPP_EVALUATOR_H
